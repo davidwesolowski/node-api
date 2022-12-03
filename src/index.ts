@@ -1,7 +1,8 @@
 import dotevn from 'dotenv';
-import config from './config';
 
 dotevn.config();
+
+import config from './config';
 
 import app from './server';
 
