@@ -1,0 +1,47 @@
+Prisma to CLI do bazy (na poziomie administracyjnym), potrzebny jest jeszcze klient
+npx prisma init -> inicjalizacja prismy
+npx prisma format -> formatuje plik, moze tez robic brakujaco relacje
+npx prisma migrate dev --name init
+Sync a database with the schema you are pointing to
+Prisma Client is generated based on our schema, every time we do migration
+npx prisma migrate reset -> resetuje baze danych
+npx prisma studio - do wizualizacji
+
+Roznica miedzy app i router jest taka, ze router jest podzbiorem app, app to cale API 
+
+Obsluga wyjatkow synchronicznych, app.use(...) dac najlepiej na koncu, po wszystkich handlerach, zeby moglby byc przechwycone
+app.get('/', (req, res) => {
+    throw new Error('test');
+})
+
+app.use((error, req, res, next) => {
+    console.log('error')
+})
+
+cokolwiek co jest przekazywane do next(tutaj) jest traktowane jako error, mozna to wykorzystac do obslugi asynchronicznych wyjatkow
+
+app.get('/', (req, res) => {
+    setTimeout(() => { 
+        next(throw new Error('test'));
+    }, 1);
+})
+
+app.use((error, req, res, next) => {
+    console.log('error', error.message)
+})
+
+jak mamy subrouter, np. /signin i /api/product, error handler musi byc dla tego i tego, bo error nie robia bubble up.
+
+process.on('uncaughtException', () => {
+    do obslugi synchronicznego wyjatku w nodzie
+})
+
+process.on('uncaughtRejection', () => {
+    do obslgi asynchronicznego wyjatku w nodzie
+})
+
+zeby odpalic ze zmienna srodowiskowa
+NODE_ENV npm run dev index.js
+STAGE npm run dev index.js
+
+npx ts-jest config:init - tworzy config file
